@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <title>星占い</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+        <img src="./images/horoscopeHeader.jpg" alt="header" width="100%">
+        <nav class="navbar navbar-dark bg-primary">
+            <a class="navbar-brand" href="#!">Horoscope</a>
+        </nav>
+        <div id="app">
+            <div v-for="horoscope in horoscopes">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid" v-bind:src="wordToImage(horoscope.sign)">
+                            </div>
+                            <div class="col-sm-10">
+                                <h4 class="card-title">{{horoscope.sign}}</h4>
+                                <p class="card-text">
+                                    {{horoscope.content}}
+                                </p>
+                                <p class="card-text">
+                                    <i class="fas fa-shopping-bag"></i>:{{horoscope.item}}
+                                </p>
+                                <p class="card-text">
+                                    <i class="fas fa-palette"></i>:{{horoscope.color}}
+                                </p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        vm = new Vue({
+            el:'#app',
+            data:{
+                horoscopes:null,
+            },
+            methods:{
+                wordToImage(word){
+                    let imageName = '';
+                    switch(word){
+                        case "牡羊座":
+                            imageName = "aries";
+                            break;
+                        case "牡牛座":
+                            imageName = "taurus";
+                            break;
+                        case "双子座":
+                            imageName = "gemini";
+                            break;
+                        case "蟹座":
+                            imageName = "cancer";
+                            break;
+                        case "獅子座":
+                            imageName = "leo";
+                            break;
+                        case "乙女座":
+                            imageName = "virgo";
+                            break;
+                        case "天秤座":
+                            imageName = "libra";
+                            break;
+                        case "蠍座":
+                            imageName = "scorpio";
+                            break;
+                        case "射手座":
+                            imageName = "sagittarus";
+                            break;
+                        case "山羊座":
+                            imageName = "capricorn";
+                            break;
+                        case "水瓶座":
+                            imageName = "aquarius";
+                            break;
+                        case "魚座":
+                            imageName = "pisces";
+                            break;
+                            
+                        default:
+
+                    }
+                    return "./images/"+imageName+".png";
+                }
+            },
+            mounted: function () {
+                axios.get("data.json").then(function(response){
+                    //console.log(response.data.horoscope['2020/05/01'])
+                    this.horoscopes = response.data.horoscope['2020/05/01']
+                }.bind(this))
+            },
+        })
+    </script>
+  </body>
+</html>
