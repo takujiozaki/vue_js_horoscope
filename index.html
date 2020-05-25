@@ -13,11 +13,11 @@
   </head>
   <body>
     <div class="container-fluid">
-        <img src="./images/horoscopeHeader.jpg" alt="header" width="100%">
-        <nav class="navbar navbar-dark bg-primary">
-            <a class="navbar-brand" href="#!">Horoscope</a>
-        </nav>
         <div id="app">
+            <img src="./images/horoscopeHeader.jpg" alt="header" width="100%">
+                <nav class="navbar navbar-dark bg-primary">
+            <a class="navbar-brand" href="#!">Horoscope {{today[0]}}</a>
+        </nav>
             <div v-for="horoscope in horoscopes">
                 <div class="card">
                     <div class="card-body">
@@ -55,7 +55,8 @@
         vm = new Vue({
             el:'#app',
             data:{
-                horoscopes:null,
+                today: null,
+                horoscopes: null,
             },
             methods:{
                 wordToImage(word){
@@ -105,9 +106,9 @@
                 }
             },
             mounted: function () {
-                axios.get("data.json").then(function(response){
-                    //console.log(response.data.horoscope['2020/05/01'])
-                    this.horoscopes = response.data.horoscope['2020/05/01']
+                axios.get("data.php").then(function(response){
+                    this.today = Object.keys(response.data.horoscope)
+                    this.horoscopes = response.data.horoscope[this.today]
                 }.bind(this))
             },
         })
